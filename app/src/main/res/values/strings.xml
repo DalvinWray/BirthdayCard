@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Birthday Card</string>
+    <string name="please_enter_the_following_details_for_the_person_s_birthday_to_generate_a_birthday_card">Please Enter The Following Details For The Person\'s Birthday To Generate A Birthday Card</string>
+    <string name="birthday_person_s_name">Birthday Person\'s Name</string>
+    <string name="name">Name:</string>
+    <string name="dob">DOB:</string>
+    <string name="date_picker">Date Picker</string>
+    <string name="submit">SUBMIT</string>
+</resources>
