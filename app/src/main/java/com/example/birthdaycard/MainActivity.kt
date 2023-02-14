@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
     var month=0
     var day=0
     var year=0
+    var sendYear=0
     private var personName:String ="Error Not Initialized"
     private var age=0
     private var birthStone="Birthstone"
@@ -31,18 +32,19 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
         setDateCal()
         submitBtn()
 
-
-
     }
+
 
     fun getBDayPersonName():String{
         return personName
     }
 
+    //Stores the Birthday Person's names
     fun setBDayPersonName(){
         personName=binding.birthdayPersonName.text.toString()
 
     }
+
 
     fun setDateCal() {
         //Calendar
@@ -101,7 +103,7 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
         }
         binding.displayDob.text="$monthWord  $day ,  $year"
 
-
+        sendYear=year
 
         //January 20- February 18
         if((month==0 && day>=20) || (month==1 && 18>=day)){
@@ -226,6 +228,7 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
                 it.putExtra("age",getAge())
                 it.putExtra("birthstone",getBirthStone())
                 it.putExtra("zodiac",getZodiacSign())
+                it.putExtra("dobYear",sendYear)
                 startActivity(it)
             }
         }
