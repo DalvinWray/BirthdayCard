@@ -9,36 +9,13 @@ import com.example.birthdaycard.databinding.ActivityMain2Binding
 class MainActivity2 : AppCompatActivity() {
 
     lateinit var binding: ActivityMain2Binding;
-    var zodiac = "Zodiac"
-    var chineseZodiacArray= mutableListOf<MutableList<Int>>()
-        /*
-        arrayOf<Int>(
-        //rat
-        *arrayOf<Int>(),
-        //ox
-        arrayOf(),
-        //tiger
-        arrayOf(),
-        //rabbit
-        arrayOf(),
-        //dragon
-        arrayOf(),
-        //snake
-        arrayOf(),
-        //horse
-        arrayOf(),
-        //goat
-        arrayOf(),
-        //monkey
-        arrayOf(),
-        //rooster
-        arrayOf(),
-        //dog
-        arrayOf(),
-        //pig
-        arrayOf(),
-    )
-*/
+     var zodiac = "Zodiac"
+
+    //Will be used to store the respective years of the various chinese zodiac sign
+    //It is a mutable list however I named the variable  an array because at first it was an array and I was too
+    //lazy to change it.
+     var chineseZodiacArray= mutableListOf<MutableList<Int>>()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,28 +33,34 @@ class MainActivity2 : AppCompatActivity() {
         setZodiacAndBirthstoneImage()
     }
 
+    //Getting  the birthday persons name from the first activity
+    //and placing it into a textfield
     private fun setName(){
         var name=intent.getStringExtra("name")
         binding.name.text=name
     }
 
+    //Getting the birthday Person's age from the first activity and assigning it to a text field
     private fun setAge(){
         var age = intent.getIntExtra("age",0)
         binding.age.text= "You are $age years old, an awesome age for an awesome person. I hope you live to see many more"
     }
 
+    //Getting the Birthday Person's birthstone from the main activity and assigning it to a text field
     private fun setBirthstone(){
         var birthstone=intent.getStringExtra("birthstone").toString()
         binding.birthstone.text="Your birthstone is $birthstone, a good lucking stone for a good looking person"
     }
 
+    //Getting the birthday Person's western zodiac sign from the main activity and assigning it to a text field
     private fun setZodiacSign(){
         zodiac=intent.getStringExtra("zodiac").toString()
         binding.zodiac.text="Your western zodiac sign is $zodiac (left image)."
     }
 
 
-
+    //Setting various images based on the user's birthstone and zodiac sign.
+    //The zodiac sign alone is the condition used to achieve this because the periods are the same.
     private fun setZodiacAndBirthstoneImage(){
         //January 20 - February 18
         if (zodiac=="Aquarius"){
@@ -157,8 +140,12 @@ class MainActivity2 : AppCompatActivity() {
 
     }
 
+    //The following function calculates the chinese zodiac sign for the birthday person
     private fun setChineseZodiacSign(){
 
+        //Starting from 1900 the various animals for the chinese zodiac is assigned a year
+        //based on when their sign would be ruling
+        //For each animal every 12 year there sign rules
         var chineseZodiacYearRat=1900
         var chineseZodiacYearOx=1901
         var chineseZodiacYearTiger=1902
@@ -173,8 +160,8 @@ class MainActivity2 : AppCompatActivity() {
         var chineseZodiacYearPig=1911
 
 
-        var indexForLoop=1900
-
+        //A mutable list is created for each animal, these lists will be added to another mutable list
+        //to create a 2d Mutable list later on
         var mutableRatList = mutableListOf<Int>()
         var mutableOxList = mutableListOf<Int>()
         var mutableTigerList = mutableListOf<Int>()
@@ -188,7 +175,13 @@ class MainActivity2 : AppCompatActivity() {
         var mutableDogList = mutableListOf<Int>()
         var mutablePigList = mutableListOf<Int>()
 
+        //This index is used for the below for loop  it is incremented by 1 at the bottom of the loop
+        // until the loop condition is false
+        var indexForLoop=1900
+
         while (2101>indexForLoop){
+
+            //The ruling year of the respective chinese zodiac sign is added to it's respective mutable list
 
             mutableRatList.add(chineseZodiacYearRat)
             mutableOxList.add(chineseZodiacYearOx)
@@ -203,6 +196,8 @@ class MainActivity2 : AppCompatActivity() {
             mutableDogList.add(chineseZodiacYearDog)
             mutablePigList.add(chineseZodiacYearPig)
 
+            //After adding the respective values to their respective mutable list
+            //the variable containing the year of the chinese zodiac sign will be increased by 12
             chineseZodiacYearRat+=12
             chineseZodiacYearOx+=12
             chineseZodiacYearTiger+=12
@@ -216,11 +211,13 @@ class MainActivity2 : AppCompatActivity() {
             chineseZodiacYearDog+=12
             chineseZodiacYearPig+=12
 
-
+            //The following variable will be increased by 1 until the while loop condition is false
             indexForLoop++
         }
 
-        Log.d("mytag",indexForLoop.toString())
+
+        //When the while loop is finished the various mutable lists for the respective chinese zodiac signs will be added to
+        // the main mutable list
         chineseZodiacArray.add(mutableRatList)
         chineseZodiacArray.add(mutableOxList)
         chineseZodiacArray.add(mutableTigerList)
@@ -237,84 +234,110 @@ class MainActivity2 : AppCompatActivity() {
 
     }
 
-    fun findPersonsChineseZodiacSign(){
+    //The following function uses the chinese zodiac sign mutable list to display a respective image and text view
+    //depending on the users DOB
+    private fun findPersonsChineseZodiacSign(){
 
+        //Person's birthday DOB year
         var year = intent.getIntExtra("dobYear",0)
+
+        //Apart of the while loop condition, it is incremented by 1 with each iteration
         var yearIndex =1900
+
+        //With every iteration of the loop the below value will be incremented.
+        // It increments the column of the 2 dimensional list for the respective zodiac sign
         var i=0
+
+        //This while loop will search the 2 dimensional mutable list until it finds a matching value
+        //to the birthday Person's DOB year
+        //Only the second index value will change because the first index value basically represents
+        // the respective lists containing the types of chinese zodiac sign.
+        //The second index value references the position of the items in the sublists which would be
+        // the numerous years associated with each chinese zodiac sign
 
         while(2101>yearIndex){
 
             //rat
             if ( chineseZodiacArray[0][i] == year){
+                binding.chinese.text="You were born under the Rat chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.rat)
-                binding.chinese.text="You were born under the rat chinese zodiac sign (right image)"
                 break
             }
 
             //ox
             else if (chineseZodiacArray[1][i]== year){
+                binding.chinese.text="You were born under the Ox chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.ox)
+
                 break
             }
 
             //tiger
             else if (chineseZodiacArray[2][i]== year){
+                binding.chinese.text="You were born under the Tiger chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.tiger)
                 break
             }
 
             //rabbit
             else if (chineseZodiacArray[3][i]== year){
+                binding.chinese.text="You were born under the Rabbit chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.rabbit)
                 break
             }
 
             //dragon
             else if (chineseZodiacArray[4][i]== year){
+                binding.chinese.text="You were born under the Dragon chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.dragon)
                 break
             }
 
             //snake
             else if ( chineseZodiacArray[5][i]== year){
+                binding.chinese.text="You were born under the Snake chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.snake)
                 break
             }
 
             //horse
             else if (chineseZodiacArray[6][i]== year){
+                binding.chinese.text="You were born under the Horse chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.horse)
                 break
             }
 
             //goat
             else if (chineseZodiacArray[7][i]== year){
+                binding.chinese.text="You were born under the Goat chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.goat)
                 break
             }
 
             //monkey
             else if (chineseZodiacArray[8][i]== year){
-
+                binding.chinese.text="You were born under the Monkey chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.monkey)
                 break
             }
 
             //rooster
             else if (chineseZodiacArray[9][i]== year){
+                binding.chinese.text="You were born under the Rooster chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.rooster)
                 break
             }
 
             //dog
             else if (chineseZodiacArray[10][i]== year){
+                binding.chinese.text="You were born under the Dog chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.dog)
                 break
             }
 
             //pig
             else if (chineseZodiacArray[11][i]== year){
+                binding.chinese.text="You were born under the Pig chinese zodiac sign (right image)"
                 binding.chineseZodiac.setImageResource(R.drawable.pig)
                 break
             }

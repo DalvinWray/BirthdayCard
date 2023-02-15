@@ -39,54 +39,57 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
         return personName
     }
 
-    //Stores the Birthday Person's names
+
     fun setBDayPersonName(){
+        //Converts the birthday persons name to type string from editable and stores
+        //it in a variable
         personName=binding.birthdayPersonName.text.toString()
 
     }
 
 
     fun setDateCal() {
-        //Calendar
+        //Getting an instance of the calendar library/class to utilize when the user sets a date
         val calendar = Calendar.getInstance()
-
-
         month = calendar.get(Calendar.MONTH)
         day = calendar.get(Calendar.DAY_OF_MONTH)
         year = calendar.get(Calendar.YEAR)
 
-
+        //When the date picker button is pressed a calendar will pop up, that will allow the user
+        //to select a date
         binding.datePicker.setOnClickListener{
-
             DatePickerDialog(this,this,year,month,day).show()
-
         }
 
 
 
     }
 
-
+    //getting the user's age
     fun getAge():Int{
         return age
     }
 
+    //getting the user's birthstone
     fun getBirthStone():String{
         return birthStone
     }
+    //getting the user's western zodiac sign
     fun getZodiacSign():String{
         return zodiac
     }
 
+    //When a date is set the code withing this function will be executed
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, day: Int) {
+        //Creating a new instance of the calendar class that will deal with finding the current date
+        //whenever the user is using the app.
         val todayCal= Calendar.getInstance()
         val currentYear =todayCal.get(Calendar.YEAR)
         val currentMonth= todayCal.get(Calendar.MONTH)
         val currentDay= todayCal.get(Calendar.DAY_OF_MONTH)
 
-
-
-
+        //Months are numbered starting from 0 instead of 1 by default
+        //The following when code block translates the months number to it's respective worded meaning
         val monthWord = when(month){
             0->"Jan"
             1->"Feb"
@@ -101,9 +104,14 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
             10->"Nov"
             else->"Dec"
         }
-        binding.displayDob.text="$monthWord  $day ,  $year"
 
+        //Displays the DOB that the user chooses
+        binding.displayDob.text="$monthWord  $day ,  $year"
+        //assigns the year to a variable to send to the next activity
         sendYear=year
+
+        //Based on the users date of birth (month & day of month)
+        //their birthstone and western zodiac sign will be accurately calculated
 
         //January 20- February 18
         if((month==0 && day>=20) || (month==1 && 18>=day)){
@@ -184,11 +192,13 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
 
 
 
-
-
-
-
-
+        //Calculating Birthday Person's Age
+        //if the current month is greater than or equal to the users DOB month and the current day
+        //is greater than or equal to the users DOB day the age will be calculated by subtracting the current year
+        //from the users DOB year.
+        //If this condition is not met the current Year will be subtracted from the DOB year then 1
+        //will be subtracted from that value
+        //These conditions are needed to ensure the correct date is displayed at all times
         if (currentMonth >= month && currentDay>= day){
             age=currentYear-year
         }
@@ -198,6 +208,7 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
             age--
         }
 
+        //If the age ends up to be a negative number it is assigned the value 0
         if (0>age){
             age=0
         }
@@ -208,21 +219,14 @@ class MainActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
     }
 
 
-
-
-
-
-
-
-
-
-
     fun submitBtn() {
-
+        //When user press submit the following code block will be executed
         binding.submit.setOnClickListener {
+            //The birthday person function will be called which sets
+            //what ever is in the Input Area for person name to a person variable.
             setBDayPersonName()
 
-
+            //Connecting the first activity to the second and also sending useful information
             val intent = Intent(this, MainActivity2::class.java).also{
                 it.putExtra("name",getBDayPersonName())
                 it.putExtra("age",getAge())

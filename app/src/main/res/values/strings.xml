@@ -6,4 +6,8 @@
     <string name="dob">DOB:</string>
     <string name="date_picker">Date Picker</string>
     <string name="submit">SUBMIT</string>
+    <string name="birthday_card_app_by_dalvin_wray">Birthday Card App By Dalvin Wray</string>
+    <string name="happy_birthday">Happy Birthday</string>
+    <string name="western_zodiac_sign">TextView</string>
+    <string name="chinese_zodiac_sign">TextView</string>
 </resources>
